@@ -542,6 +542,25 @@ void TMRpcm::play(char* filename, unsigned long seekPoint){
 
 }
 
+#if !defined (USE_TIMER2)
+void setsamplerate(unsigned int rate)
+{
+	SAMPLE_RATE = rate;
+	if(bitRead(optionByte,6))
+	{
+		resolution = 10 * (800000/SAMPLE_RATE);
+	}
+	else
+	{ 
+		resolution = 10 * (1600000/SAMPLE_RATE);
+	}
+
+	*TIMSK[tt] &= ~(togByte | _BV(TOIE1));
+	*ICRn[tt] = resolution;
+	*TIMSK[tt] |= ( _BV(ICIE1) | _BV(TOIE1) );
+}
+#endif
+
 void TMRpcm::volume(char upDown){
 
   if(upDown){

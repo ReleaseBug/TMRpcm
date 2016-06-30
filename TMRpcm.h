@@ -44,6 +44,9 @@ class TMRpcm
 	boolean wavInfo(char* filename);
 	boolean rfPlaying;
 	unsigned int SAMPLE_RATE;
+	#if !defined (USE_TIMER2)
+	void setsamplerate(unsigned int rate);
+	#endif
 
 	//*** Advanced usage Vars ***
 	byte listInfo(char* filename, char *tagData, byte infoNum);
